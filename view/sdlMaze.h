@@ -1,5 +1,6 @@
 #ifndef SDL_MAZE_H
 #define SDL_MAZE_H
+
 #include "../Models/mazeModel.h"
 #include <SDL.h>
 #include <vector>

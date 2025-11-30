@@ -1,6 +1,3 @@
-#ifndef UNIONFIND_TPP
-#define UNIONFIND_TPP
-
 #include "UnionFind.h"
 
 UnionFind::UnionFind(int n) : parent{} {
@@ -31,5 +28,3 @@ void UnionFind::unite(int i, int j) {
 bool UnionFind::connected(int x, int y) {
     return find(x) == find(y);
 }
-
-#endif

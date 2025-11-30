@@ -2,7 +2,7 @@
 #the output is in SDL and the .out file will be placed in the views folder.
 
 compile:
-	g++ Controller/test.cpp  Models/mazeModel.cpp view/sdlMaze.cpp -I /opt/homebrew/include/SDL2 -L /opt/homebrew/lib -lSDL2
+	g++ Controller/main.cpp  Models/mazeModel.cpp Models/UnionFind.cpp view/sdlMaze.cpp -I /opt/homebrew/include/SDL2 -L /opt/homebrew/lib -lSDL2
 
 run:
 	./a.out $(ARGS)
