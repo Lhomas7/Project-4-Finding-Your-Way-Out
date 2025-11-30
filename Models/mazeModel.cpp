@@ -37,8 +37,78 @@ MazeModel::MazeModel(int rows, int cols) : mazeRows(rows), mazeCols(cols) {
     }
   }
 }
-
+//TODO: Check on this
 void MazeModel::removeWall(int index) {
+  removed.push_back(wallList[index]);
   wallList.erase(wallList.begin() + index);
+}
+
+bool MazeModel::isRemoved(int cell1, int cell2) {
+  for (struct Wall w : removed) {
+    if (w.cell1 == cell1 && w.cell2 == cell2) return true;
+  }
+  return false;
+}
+
+void MazeModel::makeAdjList() {
+  int total = mazeRows * mazeCols;
+  adjlist.clear();
+  adjlist.resize(total);
+
+  for (int i = 0; i < total; ++i) {
+    int r = i / cols;
+    int c = i % cols;
+
+    // right neighbor
+    if (c < cols - 1 && isRemoved(i, i + 1)) {
+        adjlist[i].push_back(i + 1);
+        adjlist[i + 1].push_back(i);
+    }
+
+    // down neighbor
+    if (r < rows - 1 && isRemoved(i, i + cols)) {
+        adjlist[i].push_back(i + cols);
+        adjlist[i + cols].push_back(i);
+    }
+  }
+}
+
+
+std::vector<int> MazeModel::bfs(const std::vector<std::vector<int>>& adjList, int start, int goal) {
+  int n = adjList.size();
+  std::vector<bool> visited(n, false);
+  std::vector<int> parent(n, -1);
+  std::queue<int> q;
+
+  q.push(start);
+  visited[start] = true;
+
+  while (!q.empty()) {
+    int curr = q.front();
+    q.pop();
+
+    if (curr == goal) break;
+
+    for (int neighbor : adjList[curr]) {
+      if (!visited[neighbor]) {
+        visited[neighbor] = true;
+        parent[neighbor] = curr;
+        q.push(neighbor);
+      }
+    }
+  }
+  // reconstruct path
+  if (!visited[goal]) {
+    std::cout << "No path from " << start << " to " << goal << "\n";
+    return;
+  }
+
+  std::vector<int> path;
+  for (int v = goal; v != -1; v = parent[v]) {
+    path.push_back(v);
+  }
+  std::reverse(path.begin(), path.end());
+  
+  return path;
 }
     

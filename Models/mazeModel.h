@@ -23,6 +23,8 @@ class MazeModel {
 
     std::vector<int> board;
     std::vector<struct Wall> wallList;
+    std::vector<struct Wall> removed;
+    std::vector<std::vector<int>> adjlist;
     int mazeRows;
     int mazeCols;
     
@@ -32,7 +34,11 @@ class MazeModel {
         int getCols() const {return mazeCols;}
         bool isEmpty() {return wallList.empty();}
         void removeWall(int);
+        void makeAdjList();
+        bool isRemoved(int, int);
+        std::vector<int> bfs(const std::vector<std::vector<int>>&, int, int);
         std::vector<struct Wall> getWallList() { return wallList;}
+        std::vector<struct Wall> getRemoved() {return removed;}
 
 };
 
