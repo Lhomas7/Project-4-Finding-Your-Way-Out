@@ -38,4 +38,8 @@ int main(int argc, char* argv[]) {
     //draw the maze and its border
     sdlMaze.drawMaze(maze.getWallList());
     sdlMaze.drawBorder(X0, Y0, rows, cols, WIDTH);
+    
+    maze.makeAdjList();
+    std::vector<int> path = maze.bfs();
+    sdlMaze.drawPath(path, rows, cols);
 }

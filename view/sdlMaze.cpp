@@ -57,3 +57,18 @@ void SDLMaze::drawMaze(std::vector<struct Wall> wallList) {
         SDL_RenderDrawLine(renderer, wallList[i].x1, wallList[i].y1, wallList[i].x2, wallList[i].y2);
     }
 }
+
+void SDLMaze::drawPath(std::vector<int> path, int rows, int cols) {
+    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+    for (int i = 0; i < path.size(); ++i) {
+        int x = X0 + (path[i] / cols) * WIDTH;
+        int y = Y0 + (path[i] % cols) * WIDTH;
+        x -= 2;
+        y -= 2;
+        int innerWidth = WIDTH - 4;
+        SDL_Rect rect = {x, y, innerWidth, innerWidth};
+        SDL_RenderFillRect(renderer, &rect);
+        SDL_RenderPresent(renderer);
+        SDL_Delay(450);
+    }
+}

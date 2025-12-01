@@ -2,6 +2,7 @@
 #define MAZE_MODEL_H
 
 #include <vector>
+#include <iostream>
 
 //these ints represent the cell width as well as 
 //the starting x and y (X0 and Y0)
@@ -36,7 +37,7 @@ class MazeModel {
         void removeWall(int);
         void makeAdjList();
         bool isRemoved(int, int);
-        std::vector<int> bfs(const std::vector<std::vector<int>>&, int, int);
+        std::vector<int> bfs();
         std::vector<struct Wall> getWallList() { return wallList;}
         std::vector<struct Wall> getRemoved() {return removed;}
 

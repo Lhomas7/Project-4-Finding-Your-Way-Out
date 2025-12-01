@@ -14,6 +14,7 @@ class SDLMaze {
         SDLMaze();
         void drawBorder(int, int, int, int, int);
         void drawMaze(std::vector<struct Wall>);
+        void drawPath(std::vector<int>, int, int);
 };
 
 #endif

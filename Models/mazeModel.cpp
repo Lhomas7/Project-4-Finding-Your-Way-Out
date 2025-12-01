@@ -37,7 +37,7 @@ MazeModel::MazeModel(int rows, int cols) : mazeRows(rows), mazeCols(cols) {
     }
   }
 }
-//TODO: Check on this
+
 void MazeModel::removeWall(int index) {
   removed.push_back(wallList[index]);
   wallList.erase(wallList.begin() + index);
@@ -56,26 +56,28 @@ void MazeModel::makeAdjList() {
   adjlist.resize(total);
 
   for (int i = 0; i < total; ++i) {
-    int r = i / cols;
-    int c = i % cols;
+    int r = i / mazeCols;
+    int c = i % mazeCols;
 
     // right neighbor
-    if (c < cols - 1 && isRemoved(i, i + 1)) {
+    if (c < mazeCols - 1 && isRemoved(i, i + 1)) {
         adjlist[i].push_back(i + 1);
         adjlist[i + 1].push_back(i);
     }
 
     // down neighbor
-    if (r < rows - 1 && isRemoved(i, i + cols)) {
-        adjlist[i].push_back(i + cols);
-        adjlist[i + cols].push_back(i);
+    if (r < mazeRows - 1 && isRemoved(i, i + mazeCols)) {
+        adjlist[i].push_back(i + mazeCols);
+        adjlist[i + mazeCols].push_back(i);
     }
   }
 }
 
 
-std::vector<int> MazeModel::bfs(const std::vector<std::vector<int>>& adjList, int start, int goal) {
-  int n = adjList.size();
+std::vector<int> MazeModel::bfs() {
+  int start = 0;
+  int goal = (mazeRows * mazeCols) - 1;
+  int n = adjlist.size();
   std::vector<bool> visited(n, false);
   std::vector<int> parent(n, -1);
   std::queue<int> q;
@@ -89,7 +91,7 @@ std::vector<int> MazeModel::bfs(const std::vector<std::vector<int>>& adjList, in
 
     if (curr == goal) break;
 
-    for (int neighbor : adjList[curr]) {
+    for (int neighbor : adjlist[curr]) {
       if (!visited[neighbor]) {
         visited[neighbor] = true;
         parent[neighbor] = curr;
@@ -98,10 +100,10 @@ std::vector<int> MazeModel::bfs(const std::vector<std::vector<int>>& adjList, in
     }
   }
   // reconstruct path
-  if (!visited[goal]) {
+  /*if (!visited[goal]) {
     std::cout << "No path from " << start << " to " << goal << "\n";
     return;
-  }
+  }*/
 
   std::vector<int> path;
   for (int v = goal; v != -1; v = parent[v]) {
