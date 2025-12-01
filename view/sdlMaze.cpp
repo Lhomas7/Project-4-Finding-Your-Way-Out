@@ -31,7 +31,7 @@ void SDLMaze::drawBorder(int x, int y, int rows, int cols, int width) {
 
     SDL_RenderPresent(renderer);
 
-    bool running = true;
+    /*bool running = true;
     SDL_Event event;
     while (running) {
         while (SDL_PollEvent(&event)) {
@@ -44,7 +44,7 @@ void SDLMaze::drawBorder(int x, int y, int rows, int cols, int width) {
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-    SDL_Quit();
+    SDL_Quit();*/
 
 }
 
@@ -58,7 +58,9 @@ void SDLMaze::drawMaze(std::vector<struct Wall> wallList) {
     }
 }
 
-void SDLMaze::drawPath(std::vector<int> path, int rows, int cols) {
+void SDLMaze::drawPath(std::vector<int> path, int rows, int cols, std::vector<struct Wall> wallList) {
+    /*SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
     for (int i = 0; i < path.size(); ++i) {
         int x = X0 + (path[i] / cols) * WIDTH;
@@ -70,6 +72,35 @@ void SDLMaze::drawPath(std::vector<int> path, int rows, int cols) {
         SDL_RenderFillRect(renderer, &rect);
         SDL_RenderPresent(renderer);
         SDL_Delay(450);
-    }
+    }*/
+    for (int i = 0; i < path.size(); ++i) {
+        // Clear screen
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderClear(renderer);
 
+        // Redraw maze walls
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        for (const auto &w : wallList) {
+            SDL_RenderDrawLine(renderer, w.x1, w.y1, w.x2, w.y2);
+        }
+
+        //Draw border
+
+        // Draw current path square
+        SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+        int x = X0 + (path[i] / cols) * WIDTH - 2;
+        int y = Y0 + (path[i] % cols) * WIDTH - 2;
+        SDL_Rect rect = {x, y, WIDTH - 4, WIDTH - 4};
+        SDL_RenderFillRect(renderer, &rect);
+
+        SDL_RenderPresent(renderer);
+        SDL_Delay(450);
+    }
+}
+
+
+SDLMaze::~SDLMaze() {
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 }
