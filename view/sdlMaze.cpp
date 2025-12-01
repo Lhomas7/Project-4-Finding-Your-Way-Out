@@ -71,4 +71,5 @@ void SDLMaze::drawPath(std::vector<int> path, int rows, int cols) {
         SDL_RenderPresent(renderer);
         SDL_Delay(450);
     }
+
 }

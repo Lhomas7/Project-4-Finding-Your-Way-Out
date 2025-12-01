@@ -2,7 +2,7 @@
 #include <algorithm>
 
 MazeModel::MazeModel(int rows, int cols) : mazeRows(rows), mazeCols(cols) {
-  board.reserve(rows * cols);
+  /*board.reserve(rows * cols);
   wallList.reserve(((cols-1) * rows) + (cols * (rows-1))); //this calculates the number of walls needed per maze given rows and columns
 
   for (int i = 0; i < mazeCols; ++i) {
@@ -35,7 +35,46 @@ MazeModel::MazeModel(int rows, int cols) : mazeRows(rows), mazeCols(cols) {
       }
 
     }
-  }
+  }*/
+  int total = rows * cols;
+
+    board.resize(total);
+    wallList.reserve((cols - 1) * rows + (rows - 1) * cols);
+
+    // Build board: cell index = row * cols + col
+    for (int r = 0; r < rows; ++r) {
+        for (int c = 0; c < cols; ++c) {
+            board[r * cols + c] = r * cols + c;
+        }
+    }
+
+    // Build walls
+    for (int r = 0; r < rows; ++r) {
+        for (int c = 0; c < cols; ++c) {
+
+            int cell = r * cols + c;
+
+            // Wall to the right
+            if (c < cols - 1) {
+                int right = cell + 1;
+                wallList.push_back({
+                    cell, right,
+                    X0 + (c+1) * WIDTH, X0 + (c+1) * WIDTH,
+                    Y0 + r * WIDTH,     Y0 + (r+1) * WIDTH
+                });
+            }
+
+            // Wall below
+            if (r < rows - 1) {
+                int down = cell + cols;
+                wallList.push_back({
+                    cell, down,
+                    X0 + c * WIDTH,     X0 + (c+1) * WIDTH,
+                    Y0 + (r+1) * WIDTH, Y0 + (r+1) * WIDTH
+                });
+            }
+        }
+    }
 }
 
 void MazeModel::removeWall(int index) {
@@ -45,8 +84,11 @@ void MazeModel::removeWall(int index) {
 
 bool MazeModel::isRemoved(int cell1, int cell2) {
   for (struct Wall w : removed) {
-    if (w.cell1 == cell1 && w.cell2 == cell2) return true;
+    if (w.cell1 == cell1 && w.cell2 == cell2) {
+      return true;
+    }
   }
+
   return false;
 }
 
@@ -71,6 +113,7 @@ void MazeModel::makeAdjList() {
         adjlist[i + mazeCols].push_back(i);
     }
   }
+
 }
 
 
@@ -102,7 +145,7 @@ std::vector<int> MazeModel::bfs() {
   // reconstruct path
   /*if (!visited[goal]) {
     std::cout << "No path from " << start << " to " << goal << "\n";
-    return;
+    //return;
   }*/
 
   std::vector<int> path;
