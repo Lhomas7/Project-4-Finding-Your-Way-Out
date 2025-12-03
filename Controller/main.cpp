@@ -35,17 +35,23 @@ int main(int argc, char* argv[]) {
 
     }
     
-    //draw the maze and its border
-    sdlMaze.drawMaze(maze.getWallList());
-    sdlMaze.drawBorder(X0, Y0, rows, cols, WIDTH);
-    
     maze.makeAdjList();
     std::vector<int> path = maze.bfs();
-    sdlMaze.drawPath(path, rows, cols, maze.getWallList());
     
     bool running = true;
     SDL_Event event;
+    int count = 0;
     while (running) {
+        sdlMaze.drawMaze(maze.getWallList());
+        sdlMaze.drawBorder(X0, Y0, rows, cols, WIDTH);
+        for (int i = 0; i < count; ++i) {
+            sdlMaze.drawPath(path, rows, cols, maze.getWallList(), i);
+        }
+        if(count < path.size()){
+            ++count;
+        }
+        SDL_RenderPresent(sdlMaze.getRenderer());
+        SDL_Delay(350);
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT ||
                 (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {

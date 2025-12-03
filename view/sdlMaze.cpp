@@ -21,6 +21,7 @@ SDLMaze::SDLMaze() {
     }
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 }
 
 void SDLMaze::drawBorder(int x, int y, int rows, int cols, int width) {
@@ -29,7 +30,7 @@ void SDLMaze::drawBorder(int x, int y, int rows, int cols, int width) {
     SDL_RenderDrawLine(renderer,x + cols * width,y, x + cols * width, y + (rows - 1) * width);
     SDL_RenderDrawLine(renderer,x,y + rows * width, x + cols * width, y + rows * width);
 
-    SDL_RenderPresent(renderer);
+    //SDL_RenderPresent(renderer);
 
     /*bool running = true;
     SDL_Event event;
@@ -58,7 +59,7 @@ void SDLMaze::drawMaze(std::vector<struct Wall> wallList) {
     }
 }
 
-void SDLMaze::drawPath(std::vector<int> path, int rows, int cols, std::vector<struct Wall> wallList) {
+void SDLMaze::drawPath(std::vector<int> path, int rows, int cols, std::vector<struct Wall> wallList, int i) {
     /*SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
@@ -73,29 +74,29 @@ void SDLMaze::drawPath(std::vector<int> path, int rows, int cols, std::vector<st
         SDL_RenderPresent(renderer);
         SDL_Delay(450);
     }*/
-    for (int i = 0; i < path.size(); ++i) {
+    //for (int i = 0; i < path.size(); ++i) {
         // Clear screen
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        SDL_RenderClear(renderer);
+        //SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        //SDL_RenderClear(renderer);
 
         // Redraw maze walls
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        /*SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         for (const auto &w : wallList) {
             SDL_RenderDrawLine(renderer, w.x1, w.y1, w.x2, w.y2);
-        }
+        }*/
 
         //Draw border
 
         // Draw current path square
-        SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-        int x = X0 + (path[i] / cols) * WIDTH - 2;
-        int y = Y0 + (path[i] % cols) * WIDTH - 2;
-        SDL_Rect rect = {x, y, WIDTH - 4, WIDTH - 4};
-        SDL_RenderFillRect(renderer, &rect);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 50);
+    int x = X0 + (path[i] % cols) * WIDTH + 3;
+    int y = Y0 + (path[i] / cols) * WIDTH + 3;
+    SDL_Rect rect = {x, y, WIDTH - 6, WIDTH - 6};
+    SDL_RenderFillRect(renderer, &rect);
 
-        SDL_RenderPresent(renderer);
-        SDL_Delay(450);
-    }
+        //SDL_RenderPresent(renderer);
+        //SDL_Delay(350);
+    //}
 }
 
 
