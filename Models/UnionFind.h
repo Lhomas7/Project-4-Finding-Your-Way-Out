@@ -6,6 +6,7 @@
 
 class UnionFind {
 	std::vector<int> parent;
+	std::vector<int> rank;
 
 	public:
 		UnionFind(int);
