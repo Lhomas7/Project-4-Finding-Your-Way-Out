@@ -14,7 +14,7 @@ class SDLMaze {
         SDLMaze();
         void drawBorder(int, int, int, int, int);
         void drawMaze(std::vector<struct Wall>);
-        void drawPath(std::vector<int>, int, int, std::vector<struct Wall>, int);
+        void drawPath(std::vector<int>, int, int);
         ~SDLMaze();
         SDL_Renderer* getRenderer() {return renderer;}
 

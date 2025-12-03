@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
         sdlMaze.drawMaze(maze.getWallList());
         sdlMaze.drawBorder(X0, Y0, rows, cols, WIDTH);
         for (int i = 0; i < count; ++i) {
-            sdlMaze.drawPath(path, rows, cols, maze.getWallList(), i);
+            sdlMaze.drawPath(path, cols, i);
         }
         if(count < path.size()){
             ++count;
