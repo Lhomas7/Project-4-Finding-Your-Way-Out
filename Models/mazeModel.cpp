@@ -1,5 +1,6 @@
 #include "mazeModel.h"
 #include <algorithm>
+#include <queue>
 
 MazeModel::MazeModel(int rows, int cols) : mazeRows(rows), mazeCols(cols) {
 
@@ -51,7 +52,7 @@ void MazeModel::removeWall(int index) {
 
 bool MazeModel::isRemoved(int cell1, int cell2) {
   for (struct Wall w : removed) {
-    if (w.cell1 == cell1 && w.cell2 == cell2) {
+    if ((w.cell1 == cell1 && w.cell2 == cell2) || (w.cell1 == cell2 && w.cell2 == cell1)) {
       return true;
     }
   }
@@ -109,11 +110,7 @@ std::vector<int> MazeModel::bfs() {
       }
     }
   }
-  /*if (!visited[goal]) {
-    std::cout << "No path from " << start << " to " << goal << "\n";
-    //return;
-  }*/
-
+  
   // reconstruct path
   std::vector<int> path;
   for (int v = goal; v != -1; v = parent[v]) {

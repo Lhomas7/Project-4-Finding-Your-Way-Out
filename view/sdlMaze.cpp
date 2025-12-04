@@ -21,6 +21,7 @@ SDLMaze::SDLMaze() {
     }
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 }
 
@@ -53,7 +54,15 @@ void SDLMaze::drawPath(std::vector<int> path, int cols, int i) {
 
 
 SDLMaze::~SDLMaze() {
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+
+    if (renderer) {
+        SDL_DestroyRenderer(renderer);
+        renderer = nullptr;
+    }
+    if (window) {
+        SDL_DestroyWindow(window);
+        window = nullptr;
+    }
     SDL_Quit();
+
 }

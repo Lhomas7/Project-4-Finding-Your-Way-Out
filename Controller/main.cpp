@@ -16,12 +16,13 @@ int main(int argc, char* argv[]) {
     UnionFind list(rows*cols);
     srand(time(0));
 
-    while(!list.connected(0, rows*cols-1)) {
+    int edgesAdded = 0;
+    int n = rows * cols;
+    int maxEdges = n - 1;
 
-        if (maze.isEmpty()) {
-            std::cout << "No more removable walls while start and end not connected.\n";
-            break;
-        }
+    //while(!list.connected(0, rows*cols-1)) {
+    while(edgesAdded < maxEdges && !maze.isEmpty()) {
+        
         //generate random number
         int randomNum = rand() % maze.getWallList().size();
 
@@ -31,6 +32,7 @@ int main(int argc, char* argv[]) {
             //remove the wall
             list.unite(w.cell1, w.cell2);
             maze.removeWall(randomNum);
+            ++edgesAdded;
         }
 
     }
@@ -59,4 +61,6 @@ int main(int argc, char* argv[]) {
             }
         }
     }
+    
+
 }

@@ -7,8 +7,8 @@
 #include <iostream>
 
 class SDLMaze {
-    SDL_Renderer* renderer;
-    SDL_Window* window;
+    SDL_Renderer* renderer = nullptr;
+    SDL_Window* window = nullptr;
 
     public:
         SDLMaze();
@@ -17,6 +17,7 @@ class SDLMaze {
         void drawPath(std::vector<int>, int, int);
         ~SDLMaze();
         SDL_Renderer* getRenderer() {return renderer;}
+        //SDL_Window* getWindow() {return window;}
 
 };
 

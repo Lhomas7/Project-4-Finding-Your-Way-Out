@@ -1,36 +1,34 @@
 #include "UnionFind.h"
+#include <algorithm>
 
-UnionFind::UnionFind(int n) : parent{}, rank(10, 0) {
-    parent.reserve(n);
+UnionFind::UnionFind(int n) {
+    parent.resize(n);
+    rank.resize(n, 0);
+    
     for (int i = 0; i < n; ++i) {
-        parent.push_back(i);
+        parent[i] = i;
     }
 
 }
 
 int UnionFind::find(int n) {
     if (parent[n] == n) return n;
-    parent[n] = find(parent[n]);
-    return parent[n];
+    return parent[n] = find(parent[n]);
 }
 
 void UnionFind::unite(int i, int j) {
-    int parentI = find(i);
-    int parentJ = find(j);
+    int rootI = find(i);
+    int rootJ = find(j);
 
-    if (parentI == parentJ) {
-        std::cout << "same tree" << std::endl;
-    }
-
-    if (rank[parentI] < rank[parentJ]) {
-        parent[parentI] = parentJ;
-    }
-    else if (rank[parentI > rank[parentJ]]) {
-        parent[parentJ] = parentI;
-    }
-    else {
-        parent[parentJ] = parentI;
-        rank[parentI] += 1;
+    if (rootI != rootJ) {
+        // Union by rank
+        if (rank[rootI] < rank[rootJ]) {
+            std::swap(rootI, rootJ); // Ensure rootI is the larger tree
+        }
+        parent[rootJ] = rootI;
+        if (rank[rootI] == rank[rootJ]) {
+            rank[rootI]++; // Increment rank only if they were equal
+        }
     }
 }
 
