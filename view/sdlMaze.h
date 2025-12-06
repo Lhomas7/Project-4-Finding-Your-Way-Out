@@ -17,8 +17,6 @@ class SDLMaze {
         void drawPath(std::vector<int>, int, int);
         ~SDLMaze();
         SDL_Renderer* getRenderer() {return renderer;}
-        //SDL_Window* getWindow() {return window;}
-
 };
 
 #endif

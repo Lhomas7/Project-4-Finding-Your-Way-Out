@@ -20,7 +20,6 @@ int main(int argc, char* argv[]) {
     int n = rows * cols;
     int maxEdges = n - 1;
 
-    //while(!list.connected(0, rows*cols-1)) {
     while(edgesAdded < maxEdges && !maze.isEmpty()) {
         
         //generate random number
